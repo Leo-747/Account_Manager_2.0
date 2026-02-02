@@ -1,4 +1,7 @@
 import json
+import os.path
+
+
 class Account:
     def __init__(self, name, euro, inventar):
         self.name = name
@@ -43,13 +46,18 @@ class Account_laden:
         self.laden=laden
     def loadin(self):
         self.laden.append(f"{welcher}.json")
+def laden():
+    print("Die Datei gibt es nicht")
+    username = input("fangen wir von vorne an dein Name: ")
+    Player = Account(username, 100, [])
+    welcher = input("Wie soll deine datei heißen")
+    Ich.laden.append(welcher)
+    return Player,welcher
 
 def loading():
-    with open("Acounts.json", "r") as c:
-        dat = json.load(c)
     loading = input("Willst du einen spielstand laden")
     if loading == "j":
-        try:
+        if os.path.exists("Acounts.json"):
             with open ("Acounts.json", "r") as c:
                 dat = json.load(c)
                 welcher = input(f"Wechlen spiel stand willst du laden {dat}")
@@ -59,27 +67,19 @@ def loading():
                     print(data)
                     Player = Account(data["Name"], data["Money"], data["Inventar"])
                     Ich.laden.append(welcher)
-                    return Player, welcher
+                    return laden()
             except FileNotFoundError or json.JSONDecodeError:
-                print("Die Datei gibt es nicht")
-                username = input("dein Name: ")
-                Player = Account(username, 100, [])
-                welcher = input("Wie soll deine datei heißen")
-                Ich.laden.append(welcher)
-                return Player, welcher
-        except FileNotFoundError or json.JSONDecodeError:
-            print("Die Datei gibt es nicht")
-            username = input("dein Name: ")
-            Player = Account(username, 100, [])
-            welcher = input("Wie soll deine datei heißen")
-            Ich.laden.append(welcher)
-            return Player, welcher
+                return laden()
+        else:
+            with open("Acounts.json", "w") as datei:
+                json.dump(Ich.laden, datei)
+                return laden()
     elif loading == "n":
         username = input("dein Name: ")
         Player = Account(username, 100, [])
         welcher = input("Wie soll deine datei heißen")
         Ich.laden.append(welcher)
-        return Player, welcher
+        return laden()
     else:
         print("jetzt erstellst du enen neuen")
         username = input("dein Name: ")
