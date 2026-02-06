@@ -68,7 +68,7 @@ def loading():
                     Player = Account(data["Name"], data["Money"], data["Inventar"])
                     Ich.laden.append(welcher)
                     return laden()
-            except FileNotFoundError or json.JSONDecodeError:
+            except (FileNotFoundError,json.JSONDecodeError):
                 return laden()
         else:
             with open("Acounts.json", "w") as datei:
